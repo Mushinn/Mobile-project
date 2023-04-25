@@ -1,10 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import CATEGORIES from  '../Data/Categories'
 import { FlatList } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const HomeScreen = (props) => {
+
+    useEffect(() =>props.navigation.setOptions({
+        headerLeft: () => 
+        <TouchableOpacity
+        onPress={() => props.navigation.openDrawer()}
+        >
+             <Ionicons name='ios-menu' size={40} color='black' />
+        </TouchableOpacity>
+    }), [props.navigation]);
+
+    
+
     return (
         <FlatList
             data={CATEGORIES}

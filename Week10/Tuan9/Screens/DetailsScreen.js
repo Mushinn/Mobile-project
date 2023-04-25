@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import Products from '../Data/Products';
 import { Entypo } from '@expo/vector-icons';
@@ -7,6 +7,17 @@ import { TouchableOpacity } from 'react-native-web';
 const DetailsScreen = (props) => {
   const { productId } = props.route.params;
   const product = Products.find((item) => item.id === productId);
+  console.log(product);
+
+  useEffect(() =>props.navigation.setOptions({
+    headerLeft: () => 
+    <TouchableOpacity
+    onPress={() => props.navigation.openDrawer()}
+    >
+         <Ionicons name='ios-menu' size={40} color='black' />
+    </TouchableOpacity>
+}), [props.navigation]);
+
 
   props.navigation.setOptions({
     headerRight: () => (

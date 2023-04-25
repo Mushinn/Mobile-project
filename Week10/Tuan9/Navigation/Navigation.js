@@ -10,6 +10,7 @@ import HomeScreen from '../Screens/HomeScreen';
 import ProductsScreen from '../Screens/ProductsScreen';
 import DetailsScreen from '../Screens/DetailsScreen';
 import FavoritesScreen from '../Screens/FavoritesScreen';
+import FilterScreen from '../Screens/FliterScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,29 +50,46 @@ const DrawerNavigator = () => {
   );
 };
 
+const HomeTab = () => {
+  return(
+    <Tab.Navigator
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'HomeTab') {
+          iconName = focused ? 'ios-home' : 'ios-home-outline';
+        } else if (route.name === 'Favorite') {
+          iconName = focused ? 'ios-star' : 'ios-star-outline';
+        }
+
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+      tabBarActiveTintColor: 'tomato',
+      tabBarInactiveTintColor: 'gray',
+    })}
+  >
+    <Tab.Screen name="HomeTab" component={HomeStack} options={{ headerShown: false }} />
+    <Tab.Screen name="Favorite" component={FavStack} options={{ headerShown: false }} />
+  </Tab.Navigator>
+  )
+}
+
+const FilterStack = () => {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name='FilterScreen' component={FilterScreen} />
+    </Stack.Navigator>
+  )
+}
+
 export default function Navigator() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused ? 'ios-home' : 'ios-home-outline';
-            } else if (route.name === 'Favorite') {
-              iconName = focused ? 'ios-star' : 'ios-star-outline';
-            }
-
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-        })}
-      >
-        <Tab.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
-        <Tab.Screen name="Favorite" component={FavStack} options={{ headerShown: false }} />
-      </Tab.Navigator>
+      <Drawer.Navigator>
+        <Drawer.Screen name='Home' component={HomeTab} options={{ headerShown: false }}/>
+        <Drawer.Screen name='Filter' component={FilterStack} options={{ headerShown: false }}/>
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }
