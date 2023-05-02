@@ -2,13 +2,19 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import Products from '../Data/Products';
 import { FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 
 
 const ProductsScreen = (props) => {
-    const { categoryId } = props.route.params;
-    console.log(categoryId);
-    const products = Products.filter(item => item.categoryId === categoryId);
-    console.log(products);
+    const { categoryId } = props.route.params
+
+
+    const availableProducts = useSelector((state) => state.filteredProducts)
+    console.log(availableProducts)
+   
+    const products = availableProducts.filter(product => product.categoryId === categoryId);
+  
+
     return (
         <FlatList 
             data={products}

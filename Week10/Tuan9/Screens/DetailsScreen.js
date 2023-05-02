@@ -3,11 +3,27 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import Products from '../Data/Products';
 import { Entypo } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-web';
+import { useSelector, useDispatch } from 'react-redux';
 
 const DetailsScreen = (props) => {
   const { productId } = props.route.params;
-  const product = Products.find((item) => item.id === productId);
-  console.log(product);
+
+  const availableProducts = useSelector(state => state.filteredProducts)
+
+  const product = availableProducts.find(product => product.id === productId);
+
+  const dispatch = useDispatch()
+  
+
+  const themvaoyeuthich = () => {
+
+    dispatch({
+      type: 'THEM_VAO_YEU_THICH',
+      productId: productId
+     
+     })
+  }
+
 
   useEffect(() =>props.navigation.setOptions({
     headerLeft: () => 
@@ -19,13 +35,15 @@ const DetailsScreen = (props) => {
 }), [props.navigation]);
 
 
-  props.navigation.setOptions({
+  useEffect(() => props.navigation.setOptions({
     headerRight: () => (
-      <TouchableOpacity>
+      <TouchableOpacity
+      onPress = {() => themvaoyeuthich()}
+      >
         <Entypo name="star" size={24} color="red" />
       </TouchableOpacity>
     ),
-  });
+  }),[props.navigation])
 
   return (
     <View>

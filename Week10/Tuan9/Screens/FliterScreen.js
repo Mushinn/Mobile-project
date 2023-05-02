@@ -3,18 +3,28 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Switch } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-web';
+import { useDispatch } from 'react-redux';
 
 const FilterScreen = () => {
 
-    const [isBrandNewOn, setIsBrandNewOn] = useState(false);
-    const [isSaleOn, setIsSaleOn] = useState(false);
+    const [isBrandNew, setIsBrandNew] = useState(false);
+    const [isSale, setIsSale] = useState(false);
+
+    const dispatch = useDispatch()
+
+    const filters = {
+        isBrandNew: isBrandNew,
+        isSale: isSale
+    }
 
     useEffect(() =>props.navigation.setOptions({
         headerRight: () => 
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress = {() => dispatch({type: 'LOC_SAN_PHAM', filters: filters})}
+        >
             <Ionicons name='ios-save' size={32} />
         </TouchableOpacity>
-    }), [props.navigation]);
+    }), [props.navigation, isBrandNew, isSale]);
     
 
     return (
@@ -23,15 +33,15 @@ const FilterScreen = () => {
             <View>
             <Text>Hàng mới</Text>
             <Switch 
-            value={isBrandNewOn}
-            onValueChange={(newValue) => setIsBrandNewOn(newValue)}
+            value={isBrandNew}
+            onValueChange={(newValue) => setIsBrandNew(newValue)}
             />
             </View>
             <View>
             <Text>Hàng khuyễn mãi</Text>
             <Switch 
-            value={isSaleOn}
-            onValueChange={(newValue) => setIsSaleOn(newValue)}
+            value={isSale}
+            onValueChange={(newValue) => setIsSale(newValue)}
             />
             </View>
         </View>
